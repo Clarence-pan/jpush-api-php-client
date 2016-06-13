@@ -1,20 +1,11 @@
 <?php
 
-/**
- * JPush Exception
- * User: xiezefan
- * Date: 15/12/18
- * Time: 下午3:14
- */
-class APIConnectionException extends Exception {
-    public $isResponseTimeout;
-    function __construct($message, $isResponseTimeout = false) {
-        parent::__construct($message);
-        $this->isResponseTimeout = $isResponseTimeout;
-    }
-}
+namespace JPush\Core;
 
-class APIRequestException extends Exception {
+use Exception;
+
+class APIRequestException extends Exception
+{
     public $httpCode;
     public $code;
     public $message;
@@ -26,7 +17,8 @@ class APIRequestException extends Exception {
 
     private static $expected_keys = array('code', 'message');
 
-    function __construct($response){
+    public function __construct($response)
+    {
         $this->response = $response['body'];
         $this->httpCode = $response['http_code'];
         $payload = json_decode($response['body'], true);
@@ -53,7 +45,4 @@ class APIRequestException extends Exception {
             $this->rateLimitReset = $headers['X-Rate-Limit-Reset'];
         }
     }
-
-
-
 }
